@@ -18,7 +18,7 @@ class List extends React.Component {
 
     this.state = {
       items: [],
-      newTask: ``
+      newTaskName: ``
     };
 
     this.strings = {
@@ -31,21 +31,21 @@ class List extends React.Component {
     event.stopPropagation();
 
     this.setState(prevState => ({
-      items: prevState.items.concat({ text: prevState.newTask }),
-      newTask: ``
+      items: prevState.items.concat({ text: prevState.newTaskName }),
+      newTaskName: ``
     }));
   };
 
   handleInputChange = event => {
     const { value } = event.nativeEvent.target;
     this.setState(prevState => ({
-      newTask: value
+      newTaskName: value
     }));
   };
 
   render() {
     const { title } = this.props;
-    const { items } = this.state;
+    const { items, newTaskName } = this.state;
 
     return (
       <Wrapper>
@@ -59,10 +59,12 @@ class List extends React.Component {
           <input
             type={`text`}
             name="newTask"
-            value={this.state.newTask}
+            value={this.state.newTaskName}
             onChange={event => this.handleInputChange(event)}
           />
-          <button type={`submit`}>{this.strings.newTask}</button>
+          <button type={`submit`} disabled={newTaskName === ``}>
+            {this.strings.newTask}
+          </button>
         </form>
       </Wrapper>
     );

@@ -7,7 +7,7 @@ class App extends Component {
 
     this.state = {
       lists: [],
-      newList: ``
+      newListName: ``
     };
 
     this.strings = {
@@ -20,20 +20,20 @@ class App extends Component {
     event.stopPropagation();
 
     this.setState(prevState => ({
-      lists: prevState.lists.concat({ title: prevState.newList }),
-      newList: ``
+      lists: prevState.lists.concat({ title: prevState.newListName }),
+      newListName: ``
     }));
   };
 
   handleInputChange = event => {
     const { value } = event.nativeEvent.target;
     this.setState(prevState => ({
-      newList: value
+      newListName: value
     }));
   };
 
   render() {
-    const { lists } = this.state;
+    const { lists, newListName } = this.state;
 
     return (
       <div className="App">
@@ -44,10 +44,12 @@ class App extends Component {
           <input
             type={`text`}
             name="newList"
-            value={this.state.newList}
+            value={this.state.newListName}
             onChange={event => this.handleInputChange(event)}
           />
-          <button type={`submit`}>{this.strings.newList}</button>
+          <button type={`submit`} disabled={newListName === ``}>
+            {this.strings.newList}
+          </button>
         </form>
       </div>
     );
