@@ -1,6 +1,18 @@
 import React, { Component } from "react";
+import styled from "styled-components";
+import "react-awesome-button/dist/styles.css";
+
 import List from "./Components/List";
 
+const AppTItle = styled.h1`
+  text-align: center;
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+`;
 class App extends Component {
   constructor() {
     super();
@@ -11,7 +23,9 @@ class App extends Component {
     };
 
     this.strings = {
-      newList: `Add New List`
+      heading: `Task Manager`,
+      newListBtn: `Add New List`,
+      newListLbl: `Create a new list`
     };
   }
 
@@ -37,20 +51,26 @@ class App extends Component {
 
     return (
       <div className="App">
-        {lists.map((list, index) => (
-          <List key={`list-${index}`} title={list.title} />
-        ))}
-        <form className="listForm" onSubmit={this.addList}>
-          <input
-            type={`text`}
-            name="newList"
-            value={this.state.newListName}
-            onChange={event => this.handleInputChange(event)}
-          />
-          <button type={`submit`} disabled={newListName === ``}>
-            {this.strings.newList}
-          </button>
-        </form>
+        <AppTItle>{this.strings.heading}</AppTItle>
+        <div>
+          <strong>{this.strings.newListLbl}</strong>
+          <form className="listForm" onSubmit={this.addList}>
+            <input
+              type={`text`}
+              name="newList"
+              value={this.state.newListName}
+              onChange={event => this.handleInputChange(event)}
+            />
+            <button disabled={newListName === ``}>
+              {this.strings.newListBtn}
+            </button>
+          </form>
+        </div>
+        <ListContainer>
+          {lists.map((list, index) => (
+            <List key={`list-${index}`} title={list.title} />
+          ))}
+        </ListContainer>
       </div>
     );
   }
