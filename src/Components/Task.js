@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-const COLOR_COMPLETED = `rgba(72, 133, 237, 0.4)`;
-
 const Remove = props => <span {...props}>{`✗`}</span>;
 
 const RemoveIcon = styled(Remove)`
@@ -10,10 +8,11 @@ const RemoveIcon = styled(Remove)`
   cursor: pointer;
   position: absolute;
   right: 0;
+  background-color: white;
 `;
 
 const Li = styled.li`
-  color: ${props => (props.completed ? COLOR_COMPLETED : `default`)};
+  opacity: ${props => (props.completed ? 0.4 : 1)};
   margin: 2px 20px;
   font-size: 1.5rem;
   position: relative;
@@ -29,7 +28,6 @@ const Li = styled.li`
 
   &:before {
     content: ${props => (props.completed ? `"☑"` : `"☐"`)};
-    color: ${props => (props.completed ? COLOR_COMPLETED : `default`)};
     font-size: 2rem;
     margin: 0 10px 0 -50px;
   }
@@ -49,6 +47,7 @@ class Task extends React.Component {
     };
   }
 
+  // Mouse over mimics css hover behavior but allows the RemoveIcon component to be clickable
   handleMouseHover = () => this.toggleHoverState();
 
   toggleHoverState = () => {
@@ -68,9 +67,7 @@ class Task extends React.Component {
         onMouseEnter={() => this.handleMouseHover()}
         onMouseLeave={() => this.handleMouseHover()}
       >
-        <div>
-          <span className={`task`}>{text}</span>
-        </div>
+        <span className={`task`}>{text}</span>
         {isHovering && <RemoveIcon onClick={() => onDelete()} />}
       </Li>
     );

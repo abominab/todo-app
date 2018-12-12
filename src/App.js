@@ -4,8 +4,20 @@ import { Button, Intent } from "@blueprintjs/core";
 
 import List from "./Components/List";
 
-const AppTItle = styled.h1`
+const AppTitle = styled.h1`
   text-align: center;
+  font-size: 2rem;
+  color: rgba(72, 133, 237, 1);
+`;
+
+const NewListSection = styled.div`
+  display: flex;
+  justify-content: center;
+
+  & form {
+    display: flex;
+    align-items: stretch;
+  }
 `;
 
 const ListContainer = styled.div`
@@ -13,17 +25,18 @@ const ListContainer = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
 `;
+
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      lists: [{ title: `Test` }],
+      lists: [],
       newListName: ``
     };
 
     this.strings = {
-      heading: `Task Manager`,
+      heading: `Task Organizer`,
       newListBtn: `Add New List`,
       newListLbl: `Create a new list`
     };
@@ -43,7 +56,7 @@ class App extends Component {
 
   handleInputChange = event => {
     const { value } = event.nativeEvent.target;
-    this.setState(prevState => ({
+    this.setState(() => ({
       newListName: value
     }));
   };
@@ -53,25 +66,27 @@ class App extends Component {
 
     return (
       <div className="App">
-        <AppTItle>{this.strings.heading}</AppTItle>
-        <div>
-          <strong>{this.strings.newListLbl}</strong>
-          <form className="listForm" onSubmit={this.addList}>
-            <input
-              type={`text`}
-              name="newList"
-              value={this.state.newListName}
-              onChange={event => this.handleInputChange(event)}
-            />
-            <Button
-              intent={Intent.PRIMARY}
-              disabled={newListName === ``}
-              type={`submit`}
-            >
-              {this.strings.newListBtn}
-            </Button>
-          </form>
-        </div>
+        <AppTitle>{this.strings.heading}</AppTitle>
+        <NewListSection>
+          <div>
+            <strong>{this.strings.newListLbl}</strong>
+            <form onSubmit={this.addList}>
+              <input
+                type={`text`}
+                name="newList"
+                value={this.state.newListName}
+                onChange={event => this.handleInputChange(event)}
+              />
+              <Button
+                intent={Intent.PRIMARY}
+                disabled={newListName === ``}
+                type={`submit`}
+              >
+                {this.strings.newListBtn}
+              </Button>
+            </form>
+          </div>
+        </NewListSection>
         <ListContainer>
           {lists.map((list, index) => (
             <List key={`list-${index}`} title={list.title} />
