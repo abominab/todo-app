@@ -1,3 +1,5 @@
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+
 body {
   margin: 0;
   padding: 0;
@@ -6,6 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: rgba(72, 133, 237, 1);
 }
 
 code {

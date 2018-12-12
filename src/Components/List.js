@@ -1,18 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { Button, Intent } from "@blueprintjs/core";
 
 import Task from "./Task";
 
 const Wrapper = styled.div`
-  border: 1px rgba(0, 0, 0, 0.2) solid;
+  border: 1px rgba(72, 133, 237, 0.2) solid;
   border-radius: 0.25rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem rgba(72, 133, 237, 0.2);
   margin: 1rem 1rem 2rem;
   max-width: 450px;
   padding: 0.5rem;
 
   & h2 {
     text-align: center;
+    overflow-wrap: break-word;
   }
 `;
 
@@ -22,7 +24,8 @@ const ItemList = styled.ul`
 
 const ListForm = styled.form`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-items: center;
 `;
 
 class List extends React.Component {
@@ -30,7 +33,12 @@ class List extends React.Component {
     super();
 
     this.state = {
-      items: [],
+      items: [
+        { text: `My task`, completed: false },
+        { text: `1`, completed: false },
+        { text: `2`, completed: false },
+        { text: `3`, completed: false }
+      ],
       newTaskName: ``
     };
 
@@ -43,12 +51,25 @@ class List extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    this.setState(prevState => ({
-      items: prevState.items.concat({
-        text: prevState.newTaskName,
-        completed: false
-      }),
-      newTaskName: ``
+    if (this.state.newTaskName !== ``) {
+      this.setState(prevState => ({
+        items: prevState.items.concat({
+          text: prevState.newTaskName,
+          completed: false
+        }),
+        newTaskName: ``
+      }));
+      this.sortItems();
+    }
+  };
+
+  removeTask = removed => {
+    let index = this.state.items.indexOf(removed),
+      items = this.state.items.slice(0);
+
+    items.splice(index, 1);
+    this.setState(() => ({
+      items
     }));
   };
 
@@ -98,8 +119,11 @@ class List extends React.Component {
               <Task
                 key={`task-${index}`}
                 {...item}
-                onClick={() => {
+                onCompletion={() => {
                   this.markCompleted(item);
+                }}
+                onDelete={() => {
+                  this.removeTask(item);
                 }}
               />
             );
@@ -112,9 +136,13 @@ class List extends React.Component {
             value={this.state.newTaskName}
             onChange={event => this.handleInputChange(event)}
           />
-          <button type={`submit`} disabled={newTaskName === ``}>
+          <Button
+            intent={Intent.PRIMARY}
+            disabled={newTaskName === ``}
+            type={`submit`}
+          >
             {this.strings.newTask}
-          </button>
+          </Button>
         </ListForm>
       </Wrapper>
     );

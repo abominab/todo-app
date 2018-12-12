@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import "react-awesome-button/dist/styles.css";
+import { Button, Intent } from "@blueprintjs/core";
 
 import List from "./Components/List";
 
@@ -18,7 +18,7 @@ class App extends Component {
     super();
 
     this.state = {
-      lists: [],
+      lists: [{ title: `Test` }],
       newListName: ``
     };
 
@@ -33,10 +33,12 @@ class App extends Component {
     event.preventDefault();
     event.stopPropagation();
 
-    this.setState(prevState => ({
-      lists: prevState.lists.concat({ title: prevState.newListName }),
-      newListName: ``
-    }));
+    if (this.state.newListName !== ``) {
+      this.setState(prevState => ({
+        lists: prevState.lists.concat({ title: prevState.newListName }),
+        newListName: ``
+      }));
+    }
   };
 
   handleInputChange = event => {
@@ -61,9 +63,13 @@ class App extends Component {
               value={this.state.newListName}
               onChange={event => this.handleInputChange(event)}
             />
-            <button disabled={newListName === ``}>
+            <Button
+              intent={Intent.PRIMARY}
+              disabled={newListName === ``}
+              type={`submit`}
+            >
               {this.strings.newListBtn}
-            </button>
+            </Button>
           </form>
         </div>
         <ListContainer>
