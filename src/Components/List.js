@@ -85,10 +85,11 @@ class List extends React.Component {
     if (document.getSelection().type !== `Range`) {
       this.setState(prevState => ({
         items: prevState.items.map(item => {
+          let newItem = { ...item };
           if (item === completed) {
-            item.completed = true;
+            newItem.completed = true;
           }
-          return item;
+          return newItem;
         })
       }));
       this.sortItems();

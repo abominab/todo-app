@@ -48,8 +48,6 @@ class Task extends React.Component {
   }
 
   // Mouse over mimics css hover behavior but allows the RemoveIcon component to be clickable
-  handleMouseHover = () => this.toggleHoverState();
-
   toggleHoverState = () => {
     this.setState(prevState => ({
       isHovering: !prevState.isHovering
@@ -64,8 +62,8 @@ class Task extends React.Component {
       <Li
         completed={completed}
         onClick={() => onCompletion()}
-        onMouseEnter={() => this.handleMouseHover()}
-        onMouseLeave={() => this.handleMouseHover()}
+        onMouseEnter={() => this.toggleHoverState()}
+        onMouseLeave={() => this.toggleHoverState()}
       >
         <span className={`task`}>{text}</span>
         {isHovering && <RemoveIcon onClick={() => onDelete()} />}
